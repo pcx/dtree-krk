@@ -7,7 +7,7 @@ class dtnode:
     def __init__(self, data, attributes, class_attr):
         self.data = data
         self.attributes = attributes
-        self.attr_name = select_split_attr()
+        self.attr_name = self.select_split_attr()
         self.class_attr = class_attr
         for value in all_possible_values(self.data, self.attr_name):
             new_data = []
@@ -75,6 +75,6 @@ class dtnode:
             for datum in self.data:
                 if datum[class_attr] == value:
                     count = count + 1
-            p = count/self.parent_attr_num
+            p = float(count)/self.parent_attr_num
             entropy = entropy + (-1 * p * log(p, 2))
         return entropy

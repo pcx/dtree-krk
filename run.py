@@ -20,6 +20,7 @@ print "\nstatus: seven attributes have been set, they are:"
 print "\t",attributes
 print "status: class attribute set to 'result'"
 
+#saving data as a list of dictionaries
 data = []
 for record in records:
     data.append(dict(zip(attributes, 
@@ -28,62 +29,29 @@ records_num = len(data)
 print "\nstatus: input data parsed and stored away"
 print "status: number of records is:", records_num, ":O"
 
-def all_possible_values(data, attribute):
-    """
-    Builds a set of all possible values of a given 'attribute'
-    from the dataset 'data'
-    """
-    values_set = set()
-    for record in data:
-        values_set.add(record[attribute])
-    return values_set
+#building a set of all class labels
+class_labels = set()
+for datum in data:
+    class_labels.add(datum["result"])
 
-def attribute_values_dict(data, attributes):
-    """
-    Given a list of attributes, this builds a dictionary of
-    keys and sets of all their possible values
-    """
-    attr_values_ratios = dict()
-    for attribute in attributes:
-#        attribute_values[attribute] = all_possible_values(data, attribute)
-        ratios_dict = dict()
-        for attr_value in list(all_possible_values(data, attribute)):
-            count = 0
-            for record in data:
-                if record[attribute] == attr_value:
-                    count = count + 1
-        #               print "count is ", count
-                ratios_dict[attr_value] = float(count)/records_num
-        attr_values_ratios[attribute] = ratios_dict
+#splitting data into training and test data
+#1/4th of each class in testing set to maintain proportions
+testing_data = []
+for class_label  in class_labels:
+    count = 0
+    i = 0
+    for datum in data:
+        if datum["result"] == class_label:
+            count = count + 1
+    for datum in data:
+        if i < count/4:
+            if datum["result"] == class_label:
+                testing_data.append(datum)
+                data.remove(datum)
+                i = i + 1
 
-    return attr_values_ratios
+print "Testing data seperated, length is", len(testing_data), "records"
+print "Training data now is of length", len(data), "records"        
 
-#diction = attribute_values_dict(data, attributes)
-#for key in diction.keys():
-#    print "For attribute", key, ":"
-#    for value in diction[key].keys():
-#        print value, diction[key][value]
-#print all_possible_values(data, "wrf")    
-def calc_attr_ratios(attribute, values_set):
-    ratios_dict = dict()
-    for value in values_set:
-        count = 0
-        for record in data:
-            if record[attribute] == value:
-                count = count + 1
- #               print "count is ", count
-        ratios_dict[value] = float(count)/records_num
-    
-    return ratios_dict
-print attribute_values_dict(dict, attributes)
-*/
-#calc_attr_ratios(class_attr, values_set)
-
-#print records_num
-#print "\nset of values for class label is:", values_set, len(values_set)
-
-
-
-#def entropy(data, target):
-    
- 
+from dtree import dtnode
+root_node = dtnode(data, attributes.remove("result"), "result")
