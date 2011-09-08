@@ -1,0 +1,8 @@
+Decision tree learning using the King-Rook-King dataset from the UCI ML Repo
+Dataset URL: http://archive.ics.uci.edu/ml/datasets/Chess+%28King-Rook+vs.+King%29
+
+Work in progress, a little debugging left to finish off the learning part. Once that's done, I will hopefully find time to document it well and cough up a better README.
+
+License: Public License
+
+Have fun.
